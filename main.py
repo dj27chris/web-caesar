@@ -20,11 +20,11 @@ page_header = """
                 font: 16px sans-serif;
                 border-radius: 10px;
             }
-            textarea {
+            textarea {{
                 margin: 10px 0;
                 width: 540px;
                 height: 120px;
-            }
+            }}
       </style>
     </head>
     <body>
@@ -44,24 +44,32 @@ form = """
             <input type="text" name="rot" value="0" />
             </h3>
         </label>
-        <textarea cols ="30" rows="5" name="text">
+        <textarea cols ="60" rows="5" name="text">
+        {0}
         </textarea>
+        <br>
+        <input type="submit">
         
 """
 
 @app.route("/", methods=['POST'])
-def encrypt
+def encrypt():
     rot = request.form("rot")
     text = request.form("text")
 
     new_text = rotate_string(text, rot)
 
-    return '<h1>' + new_text + '</h1>'
+    content = page_header + '<h1>' + form.format(text) + '</h1>' + page_footer
+
+    return content
 
 
 @app.route("/")
 def index():
-    return page_header + form + page_footer
+    text = ''
+    content = page_header + form.format(text) + page_footer
+
+    return content
 
 
 
