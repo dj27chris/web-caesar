@@ -38,7 +38,7 @@ page_footer = """
 
 #the main body of the form
 form = """
-    <form action="/cypher" method="post">
+    <form method="post">
         <label>
             <h3>Rotate by: 
             <input type="text" name="rot" value="0" />
@@ -54,12 +54,14 @@ form = """
 
 @app.route("/", methods=['POST'])
 def encrypt():
-    rot = request.form("rot")
-    text = request.form("text")
+    rot = request.form['rot']
+    text = request.form['text']
+
+    rot = int(rot)
 
     new_text = rotate_string(text, rot)
 
-    content = page_header + '<h1>' + form.format(text) + '</h1>' + page_footer
+    content = page_header + '<h1>' + form.format(new_text) + '</h1>' + page_footer
 
     return content
 
